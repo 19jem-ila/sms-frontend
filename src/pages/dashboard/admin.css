@@ -1,0 +1,247 @@
+/* Override primary colors */
+.ant-layout-sider-trigger {
+  background: #4648fd !important;
+}
+
+.ant-menu-dark .ant-menu-item-selected {
+  background-color: #4648fd !important;
+}
+
+.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: #4648fd !important;
+}
+
+.ant-btn-primary {
+  background: #4648fd !important;
+  border-color: #4648fd !important;
+}
+
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
+  background: #3a3cd4 !important;
+  border-color: #3a3cd4 !important;
+}
+
+.ant-statistic-content-value {
+  font-weight: 600;
+}
+
+.ant-card {
+  background: #121212 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+.overview-card{
+  background: linear-gradient(135deg, #4648fd 0%, #81f9f9 100%) !important;
+}
+
+.ant-card-head {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: white !important;
+}
+
+.ant-card-head-title {
+  color: white !important;
+}
+
+.ant-table {
+  background: transparent !important;
+}
+
+.ant-table-thead > tr > th {
+  background: #1a1a1a !important;
+  color: white !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.ant-table-tbody > tr > td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.ant-table-tbody > tr:hover > td {
+  background: #1a1a1a !important;
+}
+
+/* Modal styles */
+.ant-modal .ant-modal-content {
+  background: #121212 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.ant-modal .ant-modal-header {
+  background: #121212 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.ant-modal .ant-modal-title {
+  color: white !important;
+}
+
+.ant-modal .ant-modal-close {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Form styles */
+.ant-form-item-label > label {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.ant-input, .ant-input-number, .ant-picker, .ant-select-selector {
+  background: #1a1a1a !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+}
+
+.ant-input:focus, .ant-input-number:focus, .ant-picker:focus, .ant-select-focused .ant-select-selector {
+  border-color: #4648fd !important;
+  box-shadow: 0 0 0 2px rgba(70, 72, 253, 0.2) !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4648fd;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3cd4;
+}
+
+/* Action buttons */
+.ant-btn-link {
+  color: #4648fd !important;
+}
+
+.ant-btn-link:hover {
+  color: #3a3cd4 !important;
+}
+
+/* Responsive Card Layout for Tables */
+.responsive-table-container {
+  width: 100%;
+}
+
+@media (min-width: 881px) {
+  .responsive-table-container .desktop-table {
+    display: block;
+  }
+  .responsive-table-container .mobile-cards {
+    display: none;
+  }
+}
+
+@media (max-width: 880px) {
+  .responsive-table-container .desktop-table {
+    display: none;
+  }
+  .responsive-table-container .mobile-cards {
+    display: block;
+  }
+}
+
+/* Mobile Card Styles */
+.mobile-card-item {
+  background: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  margin-bottom: 12px;
+  padding: 16px;
+  transition: all 0.3s ease;
+}
+
+.mobile-card-item:hover {
+  background: #252525;
+  border-color: rgba(70, 72, 253, 0.3);
+}
+
+.mobile-card-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.mobile-card-field:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.mobile-card-label {
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  min-width: 80px;
+}
+
+.mobile-card-value {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+  text-align: right;
+  flex: 1;
+  margin-left: 12px;
+}
+
+.mobile-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Ensure modal remains properly sized on mobile */
+@media (max-width: 880px) {
+  .ant-modal {
+    max-width: 95vw;
+    margin: 10px auto;
+  }
+  
+  .ant-modal .ant-modal-content {
+    padding: 16px;
+  }
+  
+  .ant-form-item-label > label {
+    font-size: 12px;
+  }
+  
+  .ant-input, .ant-select-selector, .ant-picker {
+    font-size: 12px;
+    height: 32px;
+  }
+  
+  .ant-form-item {
+    margin-bottom: 12px;
+  }
+}
+
+/* Card header responsiveness */
+@media (max-width: 880px) {
+  .ant-card-head {
+    padding: 12px 16px;
+  }
+  
+  .ant-card-head-title {
+    font-size: 14px;
+  }
+  
+  .ant-card-extra {
+    padding: 0;
+  }
+  
+  .ant-card-extra .ant-btn {
+    font-size: 12px;
+    padding: 4px 8px;
+    height: auto;
+  }
+}

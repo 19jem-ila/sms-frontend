@@ -1,0 +1,140 @@
+ 
+.sms-footer {
+    background: #05032a;
+    border-top: 1px solid #4648fd33;
+    margin-top: auto;
+  }
+  
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem 1rem;
+  }
+  
+  .footer-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .footer-section h4 {
+    color: #81f9f9;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1rem;
+  }
+  
+  .footer-logo .logo-icon.small {
+    display: flex;
+    align-items: center;
+  }
+  
+  .footer-logo .logo-text {
+    font-size: 1.2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #4648fd 0%, #81f9f9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .footer-description {
+    color: #81f9f9;
+    line-height: 1.6;
+    opacity: 0.8;
+    font-size: 0.9rem;
+  }
+  
+  .footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .footer-links li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .footer-links a {
+    color: #81f9f9;
+    text-decoration: none;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+  }
+  
+  .footer-links a:hover {
+    opacity: 1;
+    color: #4648fd;
+  }
+  
+  .contact-info {
+    color: #81f9f9;
+    opacity: 0.8;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  
+  .contact-info p {
+    margin-bottom: 0.5rem;
+  }
+  
+  .footer-bottom {
+    margin-top: 2rem;
+  }
+  
+  .footer-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, #4648fd 50%, transparent 100%);
+    margin-bottom: 1.5rem;
+  }
+  
+  .bottom-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #81f9f9;
+    opacity: 0.6;
+    font-size: 0.85rem;
+  }
+  
+  .social-links {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .social-links a {
+    color: #81f9f9;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+  }
+  
+  .social-links a:hover {
+    opacity: 1;
+    color: #4648fd;
+  }
+  
+  @media (max-width: 768px) {
+    .footer-container {
+      padding: 2rem 1rem 1rem;
+    }
+    
+    .footer-content {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .bottom-content {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+    }
+  }
