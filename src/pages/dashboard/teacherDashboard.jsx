@@ -271,11 +271,7 @@ const getTableColumns = () => {
         dataIndex: 'section',
         key: 'gradeLevel',
       },
-      {
-        title: 'Teacher',
-        key: 'teacherName',
-        render: (record) => record.teacher?.name || 'N/A', // extract nested name
-      },
+     
       {
         title: 'Students',
         key: 'studentCount',
