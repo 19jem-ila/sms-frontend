@@ -128,7 +128,7 @@ const TeacherDashboard = () => {
     myClasses: classes?.filter(cls => cls.teacher?._id === user?._id)?.length || 0
   };
 
-  const { useBreakpoint } = Grid;
+
   
   // Menu items for teacher (removed Users, Fees management)
   const menuItems = [
@@ -740,7 +740,7 @@ const getTableColumns = () => {
                   const subject = record.subject;
                   displayValue = typeof subject === 'string' ? subject : 
                                 (subject && typeof subject === 'object' ? subject.name : 'N/A');
-                } else if (column.key === 'grade') {
+                } else if (column.key === 'gradeLetter') {
                   displayValue = record.gradeLetter || 'N/A';
                 } else if (column.key === 'score') {
                   displayValue = record.score || 'N/A';
