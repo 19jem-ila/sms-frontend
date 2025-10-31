@@ -78,6 +78,19 @@ const TeacherDashboard = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate()
 
+  const { useBreakpoint } = Grid;
+ const screens = useBreakpoint();
+
+ // Add this useEffect to handle mobile collapse
+ useEffect(() => {
+   // Automatically collapse sidebar on mobile devices
+   if (screens.xs || screens.sm) {
+     setCollapsed(true);
+   } else {
+     setCollapsed(false);
+   }
+ }, [screens.xs, screens.sm]); // This will run when screen size changes
+
   // Redux selectors - only what teachers can access
   const { user } = useSelector((state) => state.auth);
   const { list: students, loading: studentsLoading } = useSelector(state => state.student);
@@ -251,23 +264,17 @@ const getTableColumns = () => {
       {
         title: 'Class Name',
         dataIndex: 'name',
-        key: 'name',
+        key: 'className',
       },
       {
         title: 'Section',
         dataIndex: 'section',
-        key: 'section',
+        key: 'gradeLevel',
       },
       {
         title: 'Teacher',
         key: 'teacherName',
-        render: (record) => {
-          // Handle both teacher object and direct teacher ID cases
-          if (record.teacher && typeof record.teacher === 'object') {
-            return record.teacher.name || 'N/A';
-          }
-          return 'N/A';
-        }
+        render: (record) => record.teacher?.name || 'N/A', // extract nested name
       },
       {
         title: 'Students',
@@ -402,8 +409,8 @@ const getTableColumns = () => {
           const now = new Date();
           const start = new Date(record.startDate);
           const end = new Date(record.endDate);
-          const status = start <= now && now <= end ? 'active' : 'inactive';
-          return <Tag color={status === 'active' ? 'green' : 'blue'}>{status}</Tag>;
+          const status = start <= now && now <= end ? 'isActive' : 'inactive';
+          return <Tag color={status === 'isActive' ? 'green' : 'blue'}>{status}</Tag>;
         },
       },
     ]

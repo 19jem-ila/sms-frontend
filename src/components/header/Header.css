@@ -2,9 +2,10 @@
   background: #05032a;
   border-bottom: 1px solid #4648fd33;
   backdrop-filter: blur(10px);
-  position: sticky;
+  position: fixed;
   top: 0;
   z-index: 1000;
+  width: 100%;
 }
 
 .header-container {

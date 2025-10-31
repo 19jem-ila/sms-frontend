@@ -81,6 +81,22 @@ const Dashboard = () => {
 
   const navigate = useNavigate()
 
+ // Add this - get screen size
+ const { useBreakpoint } = Grid;
+ const screens = useBreakpoint();
+
+ // Add this useEffect to handle mobile collapse
+ useEffect(() => {
+   // Automatically collapse sidebar on mobile devices
+   if (screens.xs || screens.sm) {
+     setCollapsed(true);
+   } else {
+     setCollapsed(false);
+   }
+ }, [screens.xs, screens.sm]); // This will run when screen size changes
+
+
+
   // Redux selectors
   const { user } = useSelector((state) => state.auth);
   const { list: users, loading: usersLoading } = useSelector(state => state.user);
@@ -120,7 +136,7 @@ const Dashboard = () => {
     )?.length || 0
   };
 
-  const { useBreakpoint } = Grid;
+  
   // Menu items
   const menuItems = [
     { key: '1', icon: <DashboardOutlined />, label: 'Dashboard' },
@@ -277,14 +293,7 @@ const Dashboard = () => {
     }
   };
 
-  const handleResetPassword = async (userId) => {
-    try {
-      await dispatch(resetUserPassword(userId)).unwrap();
-      message.success('Password reset successfully');
-    } catch (error) {
-      message.error(`Failed to reset password: ${error}`);
-    }
-  };
+ 
 
   const openCreateModal = () => {
     setEditingRecord(null);
@@ -1190,8 +1199,8 @@ const renderMobileCards = (data, columns) => {
                 const now = new Date();
                 const start = record.startDate ? new Date(record.startDate) : new Date();
                 const end = record.endDate ? new Date(record.endDate) : new Date();
-                const status = start <= now && now <= end ? 'active' : 'inactive';
-                value = <Tag color={status === 'active' ? 'green' : 'blue'}>{status}</Tag>;
+                const status = start <= now && now <= end ? 'isActive' : 'Inactive';
+                value = <Tag color={status === 'isActive' ? 'green' : 'blue'}>{status}</Tag>;
               }
               break;
               
@@ -1230,14 +1239,7 @@ const renderMobileCards = (data, columns) => {
               <Button type="link" danger icon={<DeleteOutlined />} size="small" />
             </Tooltip>
           </Popconfirm>
-          {selectedKey === '3' && (
-            <Popconfirm
-              title="Reset user password?"
-              onConfirm={() => handleResetPassword(record._id)}
-            >
-              <Button type="link" icon={<SettingOutlined />} size="small">Reset Password</Button>
-            </Popconfirm>
-          )}
+         
         </div>
       </div>
     );
