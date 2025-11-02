@@ -1,13 +1,32 @@
 import React from 'react';
 import {useNavigate} from "react-router-dom"
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../../store/slices/authSlice';
 import './home.css';
 
-const HomePage = ({ user }) => {
+const HomePage = () => {
   const navigate = useNavigate()
+  const { user } = useSelector((state) => state.auth);
   
   // Create click handler functions
   const handleLaunchDashboard = () => {
-    navigate('/login');
+    if (user) {
+      // If user is logged in, redirect based on role
+      switch(user?.role) {
+        case 'admin':
+          navigate('/adminDashboard');
+          break;
+        case 'teacher':
+          navigate('/teacherDashboard');
+          break;
+       
+        default:
+          navigate('/login');
+      }
+    } else {
+      // If no user is logged in, redirect to login
+      navigate('/login');
+    }
   };
 
   const handleAdminLogin = () => {
@@ -15,7 +34,23 @@ const HomePage = ({ user }) => {
   };
 
   const handleAccessPlatform = () => {
-    navigate('/login');
+    if (user) {
+      // If user is logged in, redirect based on role
+      switch(user?.role) {
+        case 'admin':
+          navigate('/adminDashboard');
+          break;
+        case 'teacher':
+          navigate('/teacherDashboard');
+          break;
+       
+        default:
+          navigate('/login');
+      }
+    } else {
+      // If no user is logged in, redirect to login
+      navigate('/login');
+    }
   };
 
   const features = [
@@ -57,7 +92,7 @@ const HomePage = ({ user }) => {
       <section className="welcome-section">
         <div className="welcome-container">
           <div className="welcome-content">
-            <div className="logo-container">
+            <div className="welcome-main-container">
               <h1 className="welcome-title">
                 EduManage Pro
               </h1>
@@ -68,7 +103,7 @@ const HomePage = ({ user }) => {
             </p>
             <div className="welcome-actions">
               <button className="btn primary" onClick={handleLaunchDashboard}>
-                Launch Dashboard
+                {user ? `Go to ${user.role?.charAt(0).toUpperCase() + user.role?.slice(1)} Dashboard` : 'Launch Dashboard'}
               </button>
               <button className="btn secondary" onClick={handleAdminLogin}>
                 Administrator Login
@@ -106,7 +141,7 @@ const HomePage = ({ user }) => {
               Join thousands of educational institutions already using EduManage Pro to streamline their operations.
             </p>
             <button className="btn primary large" onClick={handleAccessPlatform}>
-              Access Platform
+              {user ? 'Go to Dashboard' : 'Access Platform'}
             </button>
           </div>
         </div>

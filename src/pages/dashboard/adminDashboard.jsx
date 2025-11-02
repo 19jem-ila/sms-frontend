@@ -1,5 +1,6 @@
 import React, { useState, useEffect, } from 'react';
 import {useNavigate} from "react-router-dom"
+import dayjs from "dayjs";
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Layout,
@@ -154,46 +155,58 @@ const Dashboard = () => {
   const handleBackToHome = () => {
     navigate('/');
   };
+
+
+
+  
   // CRUD Operations
   const handleCreate = async (values) => {
-    console.log("🧾 Submitted form values:", values);
+    
     try {
-      switch(selectedKey) {
-        case '2': // Students
-          await dispatch(createStudent(values)).unwrap();
+      // convert Day.js → ISO string if dateOfBirth exists
+      const data = {
+        ...values,
+        dateOfBirth: values.dateOfBirth?.toISOString?.() || values.dateOfBirth,
+      };
+
+  
+      switch (selectedKey) {
+        case '2':
+          await dispatch(createStudent(data)).unwrap();
           message.success('Student created successfully');
           break;
-        case '3': // Teachers
-          await dispatch(createUser(values)).unwrap();
+        case '3':
+          await dispatch(createUser(data)).unwrap();
           message.success('Teacher created successfully');
           break;
-        case '4': // Classes
-          await dispatch(createClass(values)).unwrap();
+        case '4':
+          await dispatch(createClass(data)).unwrap();
           message.success('Class created successfully');
           break;
-        case '5': // Attendance
-          await dispatch(createAttendance(values)).unwrap();
+        case '5':
+          await dispatch(createAttendance(data)).unwrap();
           message.success('Attendance recorded successfully');
           break;
-        case '6': // Subjects
-          await dispatch(createSubject(values)).unwrap();
+        case '6':
+          await dispatch(createSubject(data)).unwrap();
           message.success('Subject created successfully');
           break;
-        case '7': // Grades
-          await dispatch(createGrade(values)).unwrap();
+        case '7':
+          await dispatch(createGrade(data)).unwrap();
           message.success('Grade created successfully');
           break;
-        case '8': // Fees
-          await dispatch(createFee(values)).unwrap();
+        case '8':
+          await dispatch(createFee(data)).unwrap();
           message.success('Fee record created successfully');
           break;
-        case '9': // Academic Terms
-          await dispatch(createTerm(values)).unwrap();
+        case '9':
+          await dispatch(createTerm(data)).unwrap();
           message.success('Academic term created successfully');
           break;
         default:
           break;
       }
+  
       setModalVisible(false);
       form.resetFields();
       loadAllData();
@@ -201,45 +214,51 @@ const Dashboard = () => {
       message.error(`Failed to create: ${error}`);
     }
   };
-
+  
   const handleUpdate = async (values) => {
     try {
-      switch(selectedKey) {
-        case '2': // Students
-          await dispatch(updateStudent({ id: editingRecord._id, data: values })).unwrap();
+      const data = {
+        ...values,
+        dateOfBirth: values.dateOfBirth?.toISOString?.() || values.dateOfBirth,
+      };
+  
+      switch (selectedKey) {
+        case '2':
+          await dispatch(updateStudent({ id: editingRecord._id, data })).unwrap();
           message.success('Student updated successfully');
           break;
-        case '3': // Teachers
-          await dispatch(updateUser({ id: editingRecord._id, data: values })).unwrap();
+        case '3':
+          await dispatch(updateUser({ id: editingRecord._id, data })).unwrap();
           message.success('Teacher updated successfully');
           break;
-        case '4': // Classes
-          await dispatch(updateClass({ id: editingRecord._id, data: values })).unwrap();
+        case '4':
+          await dispatch(updateClass({ id: editingRecord._id, data })).unwrap();
           message.success('Class updated successfully');
           break;
-        case '5': // Attendance
-          await dispatch(updateAttendance({ id: editingRecord._id, data: values })).unwrap();
+        case '5':
+          await dispatch(updateAttendance({ id: editingRecord._id, data })).unwrap();
           message.success('Attendance updated successfully');
           break;
-        case '6': // Subjects
-          await dispatch(updateSubject({ id: editingRecord._id, data: values })).unwrap();
+        case '6':
+          await dispatch(updateSubject({ id: editingRecord._id, data })).unwrap();
           message.success('Subject updated successfully');
           break;
-        case '7': // Grades
-          await dispatch(updateGrade({ id: editingRecord._id, data: values })).unwrap();
+        case '7':
+          await dispatch(updateGrade({ id: editingRecord._id, data })).unwrap();
           message.success('Grade updated successfully');
           break;
-        case '8': // Fees
-          await dispatch(updateFee({ id: editingRecord._id, data: values })).unwrap();
+        case '8':
+          await dispatch(updateFee({ id: editingRecord._id, data })).unwrap();
           message.success('Fee record updated successfully');
           break;
-        case '9': // Academic Terms
-          await dispatch(updateTerm({ id: editingRecord._id, data: values })).unwrap();
+        case '9':
+          await dispatch(updateTerm({ id: editingRecord._id, data })).unwrap();
           message.success('Academic term updated successfully');
           break;
         default:
           break;
       }
+  
       setModalVisible(false);
       setEditingRecord(null);
       form.resetFields();
@@ -248,6 +267,9 @@ const Dashboard = () => {
       message.error(`Failed to update: ${error}`);
     }
   };
+  
+
+ 
 
   const handleDelete = async (id) => {
     try {
@@ -304,7 +326,23 @@ const Dashboard = () => {
   const openEditModal = (record) => {
     setEditingRecord(record);
     setModalVisible(true);
-    form.setFieldsValue(record);
+    
+    const formValues = { ...record };
+    
+    // Safely convert date fields
+    const dateFields = ['dateOfBirth', 'attendanceDate', 'dueDate', 'paidDate', 'startDate', 'endDate'];
+    dateFields.forEach(field => {
+      if (record[field]) {
+        try {
+          formValues[field] = dayjs(record[field]);
+        } catch (error) {
+          console.warn(`Failed to parse date field ${field}:`, record[field]);
+          formValues[field] = null;
+        }
+      }
+    });
+    
+    form.setFieldsValue(formValues);
   };
 
   
@@ -575,14 +613,7 @@ const Dashboard = () => {
               <Button type="link" danger icon={<DeleteOutlined />} />
             </Tooltip>
           </Popconfirm>
-          {selectedKey === '3' && (
-            <Popconfirm
-              title="Reset user password?"
-              onConfirm={() => handleResetPassword(record._id)}
-            >
-              <Button type="link" icon={<SettingOutlined />}>Reset Password</Button>
-            </Popconfirm>
-          )}
+         
         </Space>
       ),
     };
@@ -997,7 +1028,7 @@ const Dashboard = () => {
         <Select placeholder="Select status">
           <Option value="Pending">Pending</Option>
           <Option value="Paid">Paid</Option>
-          <Option value="Partial">Partial</Option>
+          
         </Select>
       </Form.Item>
 
@@ -1259,9 +1290,12 @@ const renderContent = () => {
       <Card 
         title={menuItems.find(item => item.key === selectedKey)?.label + ' Management'}
         extra={
-          <Button type="primary" icon={<PlusOutlined />} onClick={openCreateModal}>
-            Add New
-          </Button>
+          // Only show Add button if NOT in Grades section
+          selectedKey !== '7' && (
+            <Button type="primary" icon={<PlusOutlined />} onClick={openCreateModal}>
+              Add New
+            </Button>
+          )
         }
       >
         <div className="responsive-table-container">
@@ -1284,40 +1318,43 @@ const renderContent = () => {
         </div>
       </Card>
 
-      <Modal
-        title={getModalTitle()}
-        open={modalVisible}
-        onCancel={() => {
-          setModalVisible(false);
-          setEditingRecord(null);
-          form.resetFields();
-        }}
-        footer={null}
-        width={600}
-        style={{ maxWidth: '95vw' }}
-      >
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={editingRecord ? handleUpdate : handleCreate}
+      {/* Only show modal if NOT in Grades section */}
+      {selectedKey !== '7' && (
+        <Modal
+          title={getModalTitle()}
+          open={modalVisible}
+          onCancel={() => {
+            setModalVisible(false);
+            setEditingRecord(null);
+            form.resetFields();
+          }}
+          footer={null}
+          width={600}
+          style={{ maxWidth: '95vw' }}
         >
-          {renderFormFields()}
-          <Form.Item>
-            <Space>
-              <Button type="primary" htmlType="submit">
-                {editingRecord ? 'Update' : 'Create'}
-              </Button>
-              <Button onClick={() => {
-                setModalVisible(false);
-                setEditingRecord(null);
-                form.resetFields();
-              }}>
-                Cancel
-              </Button>
-            </Space>
-          </Form.Item>
-        </Form>
-      </Modal>
+          <Form
+            form={form}
+            layout="vertical"
+            onFinish={editingRecord ? handleUpdate : handleCreate}
+          >
+            {renderFormFields()}
+            <Form.Item>
+              <Space>
+                <Button type="primary" htmlType="submit">
+                  {editingRecord ? 'Update' : 'Create'}
+                </Button>
+                <Button onClick={() => {
+                  setModalVisible(false);
+                  setEditingRecord(null);
+                  form.resetFields();
+                }}>
+                  Cancel
+                </Button>
+              </Space>
+            </Form.Item>
+          </Form>
+        </Modal>
+      )}
     </div>
   );
 };

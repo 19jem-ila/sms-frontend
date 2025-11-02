@@ -2,7 +2,7 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Add useNavigate
 import {
   UserOutlined,
   LockOutlined,
@@ -49,7 +49,16 @@ const LoginSchema = Yup.object().shape({
 
 const LoginPage = () => {
   const dispatch = useDispatch();
-  const { isLoading, isError, message, isSuccess } = useSelector((state) => state.auth);
+  const navigate = useNavigate(); // Add this hook
+  const { isLoading, isError, message, isSuccess, user } = useSelector((state) => state.auth);
+
+  // Add this useEffect to handle successful login redirection
+  React.useEffect(() => {
+    if (isSuccess && user) {
+      // Redirect to home page after successful login
+      navigate('/');
+    }
+  }, [isSuccess, user, navigate]);
 
   React.useEffect(() => {
     // Reset state when component unmounts
@@ -64,7 +73,7 @@ const LoginPage = () => {
     if (isSuccess || isError) {
       timer = setTimeout(() => {
         dispatch(resetState());
-      }, 5000);
+      }, 10000);
     }
     return () => {
       if (timer) clearTimeout(timer);
@@ -74,7 +83,7 @@ const LoginPage = () => {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       await dispatch(login(values)).unwrap();
-      // Login successful - redirect will be handled by protected routes
+      // Login successful - redirection is handled by useEffect above
     } catch (error) {
       // Error is handled by the slice
       console.error('Login failed:', error);
@@ -152,7 +161,7 @@ const LoginPage = () => {
         {isSuccess && (
           <Alert
             message="Login Successful"
-            
+            description="Redirecting to home page..."
             type="success"
             showIcon
             closable
