@@ -516,32 +516,35 @@ const getTableColumns = () => {
         return (
           <>
             <Form.Item
-              name="student"
-              label="Student"
-              rules={[{ required: true, message: 'Please select a student' }]}
-            >
-              <Select placeholder="Select a student">
-                {students?.map((s) => (
-                  <Option key={s._id} value={s._id}>
-                    {s.name} ({s.rollNumber})
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
+        name="student"
+        label="Student"
+        rules={[{ required: true, message: 'Please select a student' }]}
+      >
+        <Select placeholder="Select a student">
+          {students?.map((s) => (
+            <Option key={s._id} value={s._id}>
+              {s.name} ({s.roll_number})
+            </Option>
+          ))}
+        </Select>
+      </Form.Item>
 
-            <Form.Item
-              name="class"
-              label="Class"
-              rules={[{ required: true, message: 'Please select a class' }]}
-            >
-              <Select placeholder="Select a class">
-                {classes?.filter(cls => cls.teacher?._id === user?._id)?.map((c) => (
-                  <Option key={c._id} value={c._id}>
-                    {c.name}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
+      <Form.Item
+        name="class"
+        label="Class"
+        rules={[{ required: true, message: 'Please select a class' }]}
+      >
+        <Select placeholder="Select a class">
+          {classes?.filter(cls => {
+            const teacherId = cls.teacher?._id || cls.teacher?.id;
+            return teacherId === user?.id || teacherId === user?._id;
+          })?.map((c) => (
+            <Option key={c._id} value={c._id}>
+              {c.name}
+            </Option>
+          ))}
+        </Select>
+      </Form.Item>
 
             <Form.Item
               name="attendanceDate"

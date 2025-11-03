@@ -168,7 +168,8 @@ const Dashboard = () => {
         ...values,
         dateOfBirth: values.dateOfBirth?.toISOString?.() || values.dateOfBirth,
       };
-
+    
+     
   
       switch (selectedKey) {
         case '2':
@@ -677,7 +678,7 @@ const Dashboard = () => {
   return (
     <>
       <Form.Item name="name" label="Name" rules={[{ required: true }]}><Input /></Form.Item>
-      <Form.Item name="rollNumber" label="Roll Number" rules={[{ required: true }]}><Input /></Form.Item>
+      <Form.Item name="roll_number" label="Roll Number" rules={[{ required: true }]}><Input /></Form.Item>
       <Form.Item name="dateOfBirth" label="Date of Birth" rules={[{ required: true }]}>
         <DatePicker style={{ width: '100%' }} />
       </Form.Item>
@@ -687,7 +688,7 @@ const Dashboard = () => {
       <Form.Item name="class" label="Class" rules={[{ required: true }]}>
         <Select placeholder="Select class">
           {classes?.map(c => (
-            <Option key={c._id} value={c._id}>{c.className}</Option>
+            <Option key={c._id} value={c._id}>{c.name}</Option>
           ))}
         </Select>
       </Form.Item>
@@ -758,7 +759,7 @@ const Dashboard = () => {
         >
           {students?.map((s) => (
             <Option key={s._id} value={s._id}>
-              {s.name} ({s.rollNumber})
+              {s.name} ({s.roll_number})
             </Option>
           ))}
         </Select>
@@ -777,7 +778,7 @@ const Dashboard = () => {
         <Select placeholder="Select a student">
           {students?.map((s) => (
             <Option key={s._id} value={s._id}>
-              {s.name} ({s.rollNumber})
+              {s.name} ({s.roll_number})
             </Option>
           ))}
         </Select>
@@ -792,7 +793,7 @@ const Dashboard = () => {
         <Select placeholder="Select a class">
           {classes?.map((c) => (
             <Option key={c._id} value={c._id}>
-              {c.className}
+              {c.name}
             </Option>
           ))}
         </Select>
@@ -879,7 +880,7 @@ const Dashboard = () => {
         <Select placeholder="Select a class">
           {classes?.map(c => (
             <Option key={c._id} value={c._id}>
-              {c.className}
+              {c.name}
             </Option>
           ))}
         </Select>
